@@ -1,0 +1,53 @@
+# General Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+*.egg
+dist/
+build/
+.env
+venv/
+.ipynb_checkpoints/
+.mypy_cache/
+
+# PyTorch Specific
+*.pt
+*.pth
+*.pkl
+*.joblib
+data/
+models/
+runs/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+
+# IDE/Editor Specific
+.vscode/
+.idea/
+
+# Temporary Files
+*.tmp
+*.bak
+*.swp
+*~
+
+# Logs
+*.log
+output/
+work_dirs/
+
+# dotenv
+.env
+
+# Data Files (General - adjust as needed)
+*.csv
+*.tsv
+*.txt
+*.zip
+*.tar.gz
+*.h5
+*.hdf5
