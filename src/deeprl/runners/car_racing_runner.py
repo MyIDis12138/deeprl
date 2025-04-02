@@ -40,34 +40,34 @@ class AdaptiveCarRacingRunner:
             max_grad_norm=max_grad_norm,
         )
 
-    def train(self, model, optimizer, args):
+    def train(self, model, optimizer, config):
         """
         Train the model with adaptive human intervention.
 
         Args:
             model: Model to train
             optimizer: Optimizer to use
-            args: Training arguments
+            config: Configuration object with training parameters
         """
-        print(f"Starting adaptive PPO training with human intervention on {args.env_id}")
+        print(f"Starting adaptive PPO training with human intervention on {config.env_id}")
 
         # Phase 1: Initial human demonstration
         print("\n==== Phase 1: Initial Human Demonstration ====")
         # Phase 2: Learn from demonstrations
         print("\n==== Phase 2: Learning from Demonstrations ====")
-        self.human_runner.learn_from_demonstrations(model, optimizer, batch_size=args.batch_size)
+        self.human_runner.learn_from_demonstrations(model, optimizer, batch_size=config.batch_size)
 
         # Phase 3: PPO training with adaptive human intervention
         print("\n==== Phase 3: Adaptive PPO Training ====")
 
-        for iteration in range(args.iterations):
-            print(f"\nIteration {iteration + 1}/{args.iterations}")
+        for iteration in range(config.iterations):
+            print(f"\nIteration {iteration + 1}/{config.iterations}")
 
             # Collect rollouts
-            rollout_buffer, returns, advantages = self.ppo_runner.collect_rollouts(model, n_steps=args.steps)
+            rollout_buffer, returns, advantages = self.ppo_runner.collect_rollouts(model, n_steps=config.steps)
 
             # Update policy
-            self.ppo_runner.update_policy(model, optimizer, rollout_buffer, returns, advantages, batch_size=args.batch_size)
+            self.ppo_runner.update_policy(model, optimizer, rollout_buffer, returns, advantages, batch_size=config.batch_size)
 
             # Copy episode rewards for plotting
             self.human_runner.episode_rewards = self.ppo_runner.episode_rewards.copy()
@@ -85,11 +85,11 @@ class AdaptiveCarRacingRunner:
             print(f"Saved checkpoint to {model_path}")
 
             # Check if performance has degraded
-            if self.ppo_runner.check_performance(threshold=args.threshold):
+            if self.ppo_runner.check_performance(threshold=config.threshold):
                 print("\n==== Performance Degraded: Requesting Human Intervention ====")
 
                 # Learn from new demonstrations
-                self.human_runner.learn_from_demonstrations(model, optimizer, batch_size=args.batch_size)
+                self.human_runner.learn_from_demonstrations(model, optimizer, batch_size=config.batch_size)
 
                 # Reset consecutive worse iterations counter
                 self.ppo_runner.consecutive_worse_iterations = 0

@@ -1,4 +1,4 @@
 # src/deeprl/__init__.py
-from . import gym_envs, layers, losses, memory, model, runners
+from . import config, gym_envs, layers, losses, memory, model, runners
 
-__all__ = ["gym_envs", "layers", "losses", "memory", "model", "runners"]
+__all__ = ["config", "gym_envs", "layers", "losses", "memory", "model", "runners"]

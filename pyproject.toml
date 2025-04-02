@@ -24,6 +24,7 @@ dependencies = [
     "gymnasium==1.1.1",
     "tqdm",
     "tensorboard",
+    "pyyaml>=6.0",
 ]
 
 

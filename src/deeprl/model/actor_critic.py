@@ -1,4 +1,4 @@
-# src/deeprl/models/actor_critic.py
+# src/deeprl/model/actor_critic.py (updated for configuration)
 import torch
 import torch.nn as nn
 from torch.distributions import Categorical
@@ -12,13 +12,14 @@ class ActorCritic(BaseModel):
     Actor-Critic model for discrete action spaces.
     """
 
-    def __init__(self, input_shape, n_actions):
+    def __init__(self, input_shape, n_actions, hidden_size=512):
         """
         Initialize the Actor-Critic model.
 
         Args:
             input_shape (tuple): Shape of input (channels, height, width)
             n_actions (int): Number of discrete actions
+            hidden_size (int): Size of hidden layers
         """
         super(ActorCritic, self).__init__()
 
@@ -27,10 +28,10 @@ class ActorCritic(BaseModel):
         feature_size = self.feature_extractor.feature_size
 
         # Actor (policy) network
-        self.actor = nn.Sequential(nn.Linear(feature_size, 512), nn.ReLU(), nn.Linear(512, n_actions))
+        self.actor = nn.Sequential(nn.Linear(feature_size, hidden_size), nn.ReLU(), nn.Linear(hidden_size, n_actions))
 
         # Critic (value) network
-        self.critic = nn.Sequential(nn.Linear(feature_size, 512), nn.ReLU(), nn.Linear(512, 1))
+        self.critic = nn.Sequential(nn.Linear(feature_size, hidden_size), nn.ReLU(), nn.Linear(hidden_size, 1))
 
     def forward(self, x):
         """
