@@ -2,4 +2,4 @@
 from .actor_critic import ActorCritic
 from .base_model import BaseModel
 
-__all__ = ['ActorCritic', 'BaseModel']
+__all__ = ["ActorCritic", "BaseModel"]
